@@ -97,6 +97,42 @@ PLATFORM_LIST = [
     ('Handheld/Cellphones - Sony Playstation Portable', '/PSP_ISOs/List-All-Titles/44'),
     ('Handheld/Cellphones - Sony PSP eBoots (PSX2PSP)', '/PSX_on_PSP_ISOs/List-All-Titles/67'),
     ('Handheld/Cellphones - Sony PocketStation', '/Sony_PocketStation_ROMs/List-All-Titles/53'),
+    ('Computers - Abandonware Games', '/Abandonware_Games/List-All-Titles/51'),
+    ('Computers - Acorn Archimedes', '/Acorn_Archimedes_ROMs/List-All-Titles/58'),
+    ('Computers - Acorn BBC Micro', '/Acorn_BBC_Micro_ROMs/List-All-Titles/59'),
+    ('Computers - Acorn Electron', '/Acorn_Electron_ROMs/List-All-Titles/60'),
+    ('Computers - Amiga', '/Amiga_ROMs/List-All-Titles/4'),
+    ('Computers - Amiga CD', '/Amiga_CD_ISOs/52'),
+    ('Computers - Amiga CD32', '/Amiga_CD32_ISOs/List-All-Titles/22'),
+    ('Computers - Amstrad CPC', '/Amstrad_CPC_ROMs/List-All-Titles/62'),
+    ('Computers - Apple ][', '/Apple_][_ROMs/List-All-Titles/24'),
+    ('Computers - Atari 8-bit Family', '/Atari_8-bit_Family_ROMs/List-All-Titles/57'),
+    ('Computers - Atari ST', '/Atari_ST_ROMs/List-All-Titles/63'),
+    ('Computers - Commodore 64 Preservation Project', '/Commodore_64_Preservation_Project_ROMs/List-All-Titles/33'),
+    ('Computers - Commodore 64 (Tapes)', '/Commodore_64_(Tapes)_ROMs/List-All-Titles/34'),
+    ('Computers - ScummVM Games', '/ScummVM_Games/List-All-Titles/21'),
+    ('Computers - Sharp X68000', '/Sharp_X68000_ROMs/List-All-Titles/23'),
+    ('Computers - ZX Spectrum (Tapes)', '/ZX_Spectrum_(Tapes)_ROMs/List-All-Titles/36'),
+    ('Computers - ZX Spectrum (Z80)', '/ZX_Spectrum_(Z80)_ROMs/List-All-Titles/35'),
+    ('Arcade Systems - Capcom Play System 1', '/Capcom_Play_System_1_ROMs/List-All-Titles/54'),
+    ('Arcade Systems - Capcom Play System 2', '/Capcom_Play_System_2_ROMs/List-All-Titles/55'),
+    ('Arcade Systems - Capcom Play System 3', '/Capcom_Play_System_3_ROMs/66'),
+    # ('Arcade Systems - M.A.M.E.', ''),
+    # ('Arcade Systems - Modeler', ''),
+    # ('Arcade Systems - Namco System 12', ''),
+    # ('Arcade Systems - Namco System 12', ''),
+    ('Arcade Systems - Neo Geo (Arcade)', '/Neo_Geo_ROMs/List-All-Titles/26'),
+    # ('Arcade Systems - Raine', ''),
+    # ('Arcade Systems - Sega Model 2', ''),
+    ('Arcade Systems - Sega NAOMI', '/Sega_NAOMI_ROMs/30'),
+    # ('Arcade Systems - Zinc', ''),
+    ('Other - Complete ROM Sets', '/Complete_ROM_Sets_(Full_Sets_in_One_File)_ROMs/List-All-Titles/37'),
+    ('Other - Miscellaneous', '/Miscellaneous_Games/46'),
+    # ('Other - Nintendo DS', ''),
+    # ('Other - Nintendo Gameboy Advance', ''),
+    # ('Other - PSX Rips', ''),
+    # ('Other - Sony PSP ISOs', ''),
+    # ('Other - Zorlon\'s PSX Modifications', ''),
 ]
 
 DOMAIN = 'https://www.emuparadise.me'
@@ -238,7 +274,13 @@ class GameDownloader:
         # for each game link
         for anchor in download_div.find_all('a'):
             file_title = anchor.get_text().replace('Download ', '')
-            file_url = 'http:' + anchor.get('href') if '//' in anchor.get('href') else self.__get_direct_url(anchor)
+            if '//' in anchor.get('href'):
+                file_url = anchor.get('href')
+            else:
+                file_url = self.__get_direct_url(anchor)
+            if not 'http:' in file_url:
+                file_url = 'http:' + anchor.get('href')
+
             _, file_size = self.__get_url_fileinfo(file_url)
             game_file = GameFile(
                 title=file_title, url=file_url, size=file_size)
