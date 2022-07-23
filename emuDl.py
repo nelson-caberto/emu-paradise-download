@@ -235,7 +235,7 @@ class GameDownloader:
         # for each game link
         for anchor in download_div.find_all('a'):
             file_title = anchor.get_text().replace('Download ', '')
-            file_url = self.__get_direct_url(anchor)
+            file_url = 'http:' + anchor.get('href') if '//' in anchor.get('href') else self.__get_direct_url(anchor)
             _, file_size = self.__get_url_fileinfo(file_url)
             game_file = GameFile(
                 title=file_title, url=file_url, size=file_size)
